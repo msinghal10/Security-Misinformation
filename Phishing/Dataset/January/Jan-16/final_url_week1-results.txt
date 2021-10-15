@@ -1,0 +1,9 @@
+http://replaymix.com/vendor/league/oauth1-client/rfc5849.txt n n 
+http://replaymix.com/vendor/james-heinrich/getid3/readme.txt n n
+https://records-traffic-status-open-resolution n y 
+https://records-traffic-status-open-resolution-cloud-sbmc.justasparkband.com/  n n
+https://r19.online  y n Redirects to a facebook page
+http://kiuniversity.net/malik.zip  y n 
+http://kratosstress.net/admin%20(1).zip  n n 
+https://kiuniversity.net/malik.zip  y n 
+http://vrflyinfrmaitonsrvec.com/amazon.com/ n n 

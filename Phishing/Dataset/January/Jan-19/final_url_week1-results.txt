@@ -1,0 +1,29 @@
+http://ionesber.com/_wildcard_.ionesber.com/cgi-bin/  n n 
+http://ionesber.com/_wildcard_.ionesber.com/   n n 
+http://ionesber.com/  n n 
+https://rrmdllc.com/wp-includes/ID3/readme.txt  y n 
+https://0i7v7ksc753182x6dyfq5zn36lg0twero9h6ua5m4194348p y y Mimics amazon login page
+https://rakutenni.nrtw  n y
+https://amazon.co.jp.1a2f6d5s  n n 
+http://mufg.jp.mtued  n y phistank has verified it as a phish
+https://files-wpdd.000webhostapp.com/Maxwell/index.php  n y 
+http://pruebaintegrasalud.com/Integrasalud/register.html  n n 
+https://ezzeel.com/wordpress-5.1.1.zip  y n Drive-by download
+https://bloomabyss.com/wp-includes/ID3/readme.txt  y n
+http://bloomabyss.com/wp-includes/ID3/readme.txt  y n 
+http://arabicaboun.com/wp-includes/ID3/readme.txt  y n 
+http://arabicaboun.com/wordpress.zip  y n Drive-by download
+https://d87ca19b4f480c9c18d88f3ffd681b03.com/Kuzuluy-OnkseFIX-3.zip  n n 
+http://ciawodkuzaowd.com/casoimwr/  n n 
+https://powerprofit.top/Manager21.zip  y n Drive by download
+https://varto.xyz/material_wallpaper.zip  y n Drive by download
+http://partypay.xyz/wordpress-5.6.zip  n n 
+https://openinvest.top/Manager21.zip  y n Drive by download
+http://beverlywooddental.xyz/Arch.zip  n n 
+https://dayatsbr.xyz/sbrdown.zip  y n Drive by download
+http://speechelotool.com/wordpress-5.6.zip  n n 
+https://securedsafesites.com   y n
+https://rupsafinancialservice.com/insura.zip   y n Drive by download
+http://rematopropiedades.com/php.zip   y n Drive by download
+https://manosfundraising.com/Script.zip  n n 
+https://manosfundraising.com/Script.zip  n n 

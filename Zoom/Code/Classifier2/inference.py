@@ -146,6 +146,19 @@ for x in range(len(Corpus)):
     tmp.append(found.iloc[0]['Comments'])
     tmp.append(found.iloc[0]['Shares'])
     temp.append(tmp)
+    #If using twitter dataset comment out lines 143 to 148 and uncomment the following lines
+    # found = Corpus1.loc[Corpus1['Tweet-Id']==Corpus['Tweet-Id'][x]]
+    # # print(found)
+    # tmp.append(found.iloc[0]['Tweets'])
+    # tmp.append(found.iloc[0]['Followers'])
+    # tmp.append(found.iloc[0]['Verified'])
+    # tmp.append(found.iloc[0]['Listed'])
+    # tmp.append(found.iloc[0]['Description'])
+    # tmp.append(found.iloc[0]['Age'])
+    # tmp.append(found.iloc[0]['Image'])
+    # tmp.append(found.iloc[0]['HasURL-TW'])
+    # tmp.append(found.iloc[0]['HasMedia-Tw'])
+    # temp.append(tmp)
 
 
 sample_text_processed_vectorized = Tfidf_vect.transform(Corpus['text_final'])
@@ -153,7 +166,7 @@ sample_text_processed_vectorized = Tfidf_vect.transform(Corpus['text_final'])
 
 temp = np.array(temp)
 
-temp = np.reshape(temp, (len(temp), 3))
+temp = np.reshape(temp, (len(temp), temp.shape[1]))
 # temp1 = np.reshape(temp1, (len(temp1), 1))
 
 print(sample_text_processed_vectorized.shape)

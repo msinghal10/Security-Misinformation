@@ -24,23 +24,11 @@ from sklearn.pipeline import Pipeline
 
 Corpus = pd.read_csv(r"facebook.csv", encoding='utf-8')
 
-# Step - 1: Data Pre-processing
-# C1= Corpus[Corpus['Label'] == '__label3__']
-# C1.to_csv(r'FP.csv',index=False)
+
 C2=Corpus.loc[(Corpus['Label'] == '__label1__') | (Corpus['Label'] == '__label2__')]
-# C2.to_csv(r'TP.csv',index=False)
-# input('enter enter when ready')
-# C2.loc[C2['Label'] == '__label2__','Label'] = '__label1__'
-# C2.to_csv(r'TP.csv',index=False)
-# input('enter enter when ready')
-# C1.loc[C1['Label'] == '__label3__','Label'] = '__label2__'
-# C1.to_csv(r'FP-1.csv',index=False)
-# Corpus = pd.concat([C1,C2])
-# Corpus.to_csv(r't.csv',index=False)
-# input('enter enter when ready')
+
 C2['Message']=C2['Message'].dropna()
-# print(Corpus)
-# input('enter enter when ready')
+
 def csleaner(text):
     text = re.sub(r"@[A-Za-z0-9]+","",str(text)) #Remove @ sign
     text=re.sub(r"[RT]+","",str(text))
@@ -88,18 +76,7 @@ C2['Message'] = C2['Message'].map(deEmojify)
 
 C2['Message']=C2['Message'].dropna()
 C2['Label']=C2['Label'].dropna()
-# print(Corpus)
-# def csleaner(text):
-#     text = re.sub(r'@[A-Za-z0-9]+',"",text) #Remove @ sign
-#     text = re.sub(r"(?:\@|http?\://|https?\://|www)\S+", "", text) #Remove http links
-#     text = " ".join(text.split())
-#     # tweet = ''.join(c for c in tweet if c not in emoji.UNICODE_EMOJI) #Remove Emojis
-#     text = text.replace("#", "").replace("_", " ") #Remove hashtag sign but keep the text
-#     # tweet = " ".join(w for w in nltk.wordpunct_tokenize(tweet) \
-#     #      if w.lower() in words or not w.isalpha())
-#     return text
 
-# Corpus['text'] = Corpus['text'].map(csleaner)
 
 # WordNetLemmatizer requires Pos tags to understand if the word is noun or verb or adjective etc. By default it is set to Noun
 
@@ -128,11 +105,6 @@ def text_preprocessing(text):
 
 C2['text_final'] = C2['Message'].map(text_preprocessing)
 
-# Corpus.to_csv(r'finaldata.csv',index=False)
-# input('enter enter when ready')
-# opening a csv,
-# conatinatying the csv with the corpus text final 
-# conctenate or + ?
 
 
 
@@ -141,17 +113,10 @@ C2['text_final'] = C2['Message'].map(text_preprocessing)
 Train_X, Test_X, Train_Y, Test_Y = model_selection.train_test_split(C2['text_final'], C2['Label'],
                                                                     test_size=0.3)
 
-# print(Train_X)
-
-# Test_Y.to_csv(r'test2.csv',index=False)
-# input('enter enter when ready')
-# Train_Y = pd.read_csv(r"test1.csv")
-# Test_Y = pd.read_csv(r"test2.csv")
 
 # # Step - 3: Label encode the target variable
 Encoder = LabelEncoder()
-# # Train_Y = np_utils.to_categorical(lambda i : lb.fit_transform(Train_Y))
-# # Encoder.fit(Train_Y)
+
 Train_Y = Encoder.fit_transform(Train_Y)
 Test_Y = Encoder.fit_transform(Test_Y)
 
@@ -164,8 +129,7 @@ Test_X=Test_X.reset_index(drop=True)
 for x in range(len(Train_X)):
     tmp = []
     found = C2.loc[C2['text_final']==Train_X[x]]
-    # input('enter enter when ready')
-    # if len(found) >0:
+
     tmp.append(found.iloc[0]['Likes'])
     tmp.append(found.iloc[0]['Comments'])
     tmp.append(found.iloc[0]['Shares'])
@@ -174,6 +138,17 @@ for x in range(len(Train_X)):
     else:
         temp.append(0)
     temp.append(tmp)
+    #When using Twitter, Uncomment lines from 178 to 187 and comment lines 169-175
+    # tmp.append(found.iloc[0]['Tweets'])
+    # tmp.append(found.iloc[0]['Followers'])
+    # tmp.append(found.iloc[0]['Verified'])
+    # tmp.append(found.iloc[0]['Listed'])
+    # tmp.append(found.iloc[0]['Description'])
+    # tmp.append(found.iloc[0]['Age'])
+    # tmp.append(found.iloc[0]['Image'])
+    # tmp.append(found.iloc[0]['HasURL-TW'])
+    # tmp.append(found.iloc[0]['HasMedia-Tw'])
+    # temp.append(tmp)
     # temp.append(found.iloc[0]['Likes'])
     # print(temp)
 
@@ -191,44 +166,25 @@ for x in range(len(Test_X)):
     else:
         temp.append(0)
     temp1.append(tmp)
+    #When using Twitter, Uncomment lines from 206 to 215 and comment lines 197-204
+    # tmp.append(found.iloc[0]['Tweets'])
+    # tmp.append(found.iloc[0]['Followers'])
+    # tmp.append(found.iloc[0]['Verified'])
+    # tmp.append(found.iloc[0]['Listed'])
+    # tmp.append(found.iloc[0]['Description'])
+    # tmp.append(found.iloc[0]['Age'])
+    # tmp.append(found.iloc[0]['Image'])
+    # tmp.append(found.iloc[0]['HasURL-TW'])
+    # tmp.append(found.iloc[0]['HasMedia-Tw'])
+    # temp1.append(tmp)
     # print(temp)
 
 
 
-# type(found['Likes'])
-# np.savetxt("GFG.csv", temp,delimiter =",")
-# input('enter enter when ready')
-# Step - 4: Vectorize the words by using TF-IDF Vectorizer
-
-# Tfidf_vect = TfidfVectorizer(analyzer='char',token_pattern=r'\w{1,}',max_features=500,ngram_range=(2, 2))
-# Tfidf_vect.fit(Train_X.values.ravel())
-
-# Train_X_Tfidf = Tfidf_vect.transform(Train_X.values.ravel())
-# Test_X_Tfidf = Tfidf_vect.transform(Test_X.values.ravel())
-
-# pipe11 = Pipeline([('tfidf' ,TfidfVectorizer())])
-# param_grid = [
-#     {'tfidf' : [TfidfVectorizer()],
-#      'tfidf_analyzer' : ['char','word','char_wb'],
-#     'tfidf__max_features' : range(100,20000,100),
-#      'tfidf_ngram_range': ((1,1),(1,2),(2,2),(3,3))}  
-# ]
-# Tfidf_vect = GridSearchCV(pipe11, param_grid = param_grid, verbose=5, n_jobs=-1)
 Tfidf_vect = TfidfVectorizer(analyzer='char',token_pattern=r'\w{1,}',max_features=100,ngram_range=(1,2))
-# Corpus.to_csv(r'lol.csv',index=False)
-# # input('enter enter when ready')
-# Corpus = pd.read_csv(r"lol.csv")
-# Corpus['text_final']=Corpus['text_final'].str[0:-1]+','+Corpus['F'].astype(str)+Corpus['V'].astype(str)+']'
-# Corpus['text_final']=Corpus['text_final'].str[0:-1]+','+Corpus['F'].astype(str)+Corpus['S'].astype(str)+Corpus['F'].astype(str)+Corpus['V'].astype(str)+']'
-# Corpus['text_final'] = Corpus['text_final'] + ' '  + Corpus['F'].astype(str) + ' '  + Corpus['L'].astype(str)+ ' '  + Corpus['C'].astype(str)+ ' '  + Corpus['V'].astype(str)
-# Corpus['text_final']=Corpus['text_final'].str.insert(-2,','+Corpus['F'].astype(str))
 
-# Corpus['text_final'] = Corpus['text_final'] + ' '  + Corpus['F'].astype(str)
-# Corpus.to_csv(r'lol1.csv',index=False)
-# input('enter enter when ready')
 Tfidf_vect.fit(C2['text_final'].apply(lambda x: np.str_(Tfidf_vect)))
-# print(Tfidf_vect.best_params_)
-# input('enter enter when ready')
+
 Train_X_Tfidf = Tfidf_vect.transform(Train_X.values.astype('U'))
 Test_X_Tfidf = Tfidf_vect.transform(Test_X.values.astype('U'))
 
@@ -236,19 +192,14 @@ Test_X_Tfidf = Tfidf_vect.transform(Test_X.values.astype('U'))
 temp = np.array(temp)
 temp1 = np.array(temp1)
 
-temp = np.reshape(temp, (len(temp), 3))
-temp1 = np.reshape(temp1, (len(temp1), 3))
+temp = np.reshape(temp, (len(temp), temp.shape[1])) 
+temp1 = np.reshape(temp1, (len(temp1), temp1.shape[1]))
 
-# print(Train_X_Tfidf.shape)
-# print(temp.shape)
-# print(Test_X_Tfidf.shape)
-# print(temp1.shape)
+
 
 X_train=Train_X_Tfidf.toarray()
 X_test=Test_X_Tfidf.toarray()
-# print(X_train)
-# print(temp)
-# input('enter enter when ready')
+
 X_train=np.append(X_train,temp,axis=1)
 X_test=np.append(X_test,temp1,axis=1)
 
@@ -271,21 +222,21 @@ X_resample, y_resampled = SMOTE().fit_resample(x_train, Train_Y)
 Naive = naive_bayes.MultinomialNB()
 # Naive.fit(Train_X_Tfidf, Train_Y)
 # predictions_NB = Naive.predict(Test_X_Tfidf)
-#Naive.fit(X_resample, y_resampled)
-#predictions_NB = Naive.predict(X_test)
+Naive.fit(X_resample, y_resampled)
+predictions_NB = Naive.predict(X_test)
 
 # Use accuracy_score function to get the accuracy
-#print("Naive Bayes Accuracy Score -> ", accuracy_score(predictions_NB, Test_Y) * 100)
-#print("Naive Bayes Report ->", classification_report(Test_Y,predictions_NB,zero_division=1))
+print("Naive Bayes Accuracy Score -> ", accuracy_score(predictions_NB, Test_Y) * 100)
+print("Naive Bayes Report ->", classification_report(Test_Y,predictions_NB,zero_division=1))
 
-# pipe = Pipeline([('classifier1' ,svm.SVC())])
-# param_grid = [
-#     {'classifier1' : [svm.SVC()],
-#      'classifier1__kernel' : ['linear','rbf'],
-#     'classifier1__C' : np.logspace(-4, 4, 20),
-#     'classifier1__degree' : [1,2,3,4,5],
-#      'classifier1__gamma': ['scale', 'auto']}  
-# ]
+pipe = Pipeline([('classifier1' ,svm.SVC())])
+param_grid = [
+    {'classifier1' : [svm.SVC()],
+     'classifier1__kernel' : ['linear','rbf'],
+    'classifier1__C' : np.logspace(-4, 4, 20),
+    'classifier1__degree' : [1,2,3,4,5],
+     'classifier1__gamma': ['scale', 'auto']}  
+]
 
 pipe1 = Pipeline([('classifier2' ,RandomForestClassifier())])
 param_grid1 = [
@@ -307,7 +258,7 @@ param_grid2 = [
 #      'classifier4__hidden_layer_sizes': (5,2),
 #      'classifier4__random_state' : [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]}]
 
-# SVM = GridSearchCV(pipe, param_grid = param_grid, cv = 3, verbose=1, n_jobs=-1)
+SVM = GridSearchCV(pipe, param_grid = param_grid, cv = 3, verbose=1, n_jobs=-1)
 
 
 # Classifier - Algorithm - SVM
@@ -317,17 +268,17 @@ param_grid2 = [
 # SVM.fit(Train_X_Tfidf, Train_Y)
 # predictions_SVM = SVM.predict(Test_X_Tfidf)
 
-# #SVM.fit(X_resample, y_resampled)
-# #predictions_SVM = SVM.predict(X_test)
+SVM.fit(X_resample, y_resampled)
+predictions_SVM = SVM.predict(X_test)
 
 # # Use accuracy_score function to get the accuracy
-# print("SVM Accuracy Score -> ", accuracy_score(predictions_SVM, Test_Y) * 100)
-# print("SVM Report ->", classification_report(Test_Y,predictions_SVM,zero_division=1))
-# print(SVM.best_params_)
+print("SVM Accuracy Score -> ", accuracy_score(predictions_SVM, Test_Y) * 100)
+print("SVM Report ->", classification_report(Test_Y,predictions_SVM,zero_division=1))
+print(SVM.best_params_)
 
 
-regressor = RandomForestClassifier(n_estimators=500, random_state=3)
-# regressor = GridSearchCV(pipe1, param_grid = param_grid1, cv = 3, verbose=1, n_jobs=-1)
+# regressor = RandomForestClassifier(n_estimators=500, random_state=3)
+regressor = GridSearchCV(pipe1, param_grid = param_grid1, cv = 3, verbose=1, n_jobs=-1)
 # regressor.fit(Train_X_Tfidf, Train_Y)
 # y_pred = regressor.predict(Test_X_Tfidf)
 regressor.fit(X_resample, y_resampled)
@@ -340,9 +291,9 @@ print("Random Forrest Report ->", classification_report(Test_Y,y_pred.round(), z
 # with open('preds_instagram-RF.csv', 'w') as f:
 #     for x in y_pred:
 #         f.write(str(x)+'\n')
-print(regressor.feature_importances_)
-# print(regressor.best_params_)
-input('press enter')
+# print(regressor.feature_importances_)
+print(regressor.best_params_)
+# input('press enter')
 # neigh = KNeighborsClassifier(n_neighbors=10)
 
 neigh = GridSearchCV(pipe2, param_grid = param_grid2, cv = 3,verbose=1, n_jobs=-1)
@@ -356,14 +307,13 @@ print(neigh.best_params_)
 
 clf = MLPClassifier(activation='logistic',solver='adam', alpha=1e-5,hidden_layer_sizes=(8, 2), random_state=1)
 
-# clf = GridSearchCV(pipe3, param_grid = param_grid3, cv = 3, verbose=1, n_jobs=-1)
 # clf.fit(Train_X_Tfidf, Train_Y)
 # y_pred = clf.predict(Test_X_Tfidf)
 clf.fit(X_resample, y_resampled)
 y_pred = clf.predict(X_test)
 print("Multi-layer Neural Network Accuracy Score -> ", accuracy_score(y_pred.round(), Test_Y) * 100)
 print("Multi-layer Neural Network Report ->", classification_report(Test_Y,y_pred.round(), zero_division=1))
-# print(clf.best_params_)
+
 # # Saving Encdoer, TFIDF Vectorizer and the trained model for future infrerencing/prediction
 
 # saving encoder to disk

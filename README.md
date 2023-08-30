@@ -1,4 +1,10 @@
-# Security-Misinformation
+# Cybersecurity Misinformation Detection on Social Media: Case Studies on Phishing Reports and Zoom’s Threat
+
+We obtained Twitter data from Twitter V1 API and data from Facebook, Instagram, Reddit from CrowdTangle API. 
+
+In this repository, you have access to the Twitter dataset, we cannot share data from Facebook, Instagram, and Reddit due to limitations imposed by CrowdTangle (https://help.crowdtangle.com/en/articles/4558716-understanding-and-citing-crowdtangle-data)
+
+There are two sub folders, where you will have the ground truth dataset from Twitter and the classifier used.
 
 
 Please Cite our paper as:

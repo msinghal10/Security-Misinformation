@@ -64,13 +64,12 @@ Forrest=pickle.load(open('rf_trained_model.sav','rb'))
 # NN=pickle.load(open('nn_trained_model.sav','rb'))
 # Inference
 pd.set_option('mode.use_inf_as_na', True)
-Corpus = pd.read_csv(r"twitter.csv", encoding='utf-8')
-
-C1= Corpus[Corpus['Label'].isna()]
-C1.to_csv(r'classifier1-output-nolabels.csv',index=False)
+Corpus = pd.read_csv(r"fb_inp.csv", encoding='utf-8')
+Corpus1 = pd.read_csv(r"facebook.csv", encoding='utf-8')
+# C1= Corpus[Corpus['Label'].isna()]
 # print(C1)
 # input('h')
-# C1['Description']=C1['Description'].dropna()
+Corpus['text']=Corpus['text'].dropna()
 # Corpus['Description'] = Corpus['Description'].map(csleaner)
 
 
@@ -90,12 +89,12 @@ def csleaner(text):
     text=text.replace(r"/[^a-zA-Z ]+/g", "")
     return str(text)
 
-C1['full_text'] = C1['full_text'].map(csleaner)
+Corpus['text'] = Corpus['text'].map(csleaner)
 
-# Corpus['full_text'] = Corpus['full_text'].map(csleaner)
+Corpus1['Message'] = Corpus1['Message'].map(csleaner)
 
-C1['full_text'].map(lambda x: re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)","",str(x)).split())
-# Corpus['full_text'].map(lambda x: re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)","",str(x)).split())
+Corpus['text'].map(lambda x: re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)","",str(x)).split())
+Corpus1['Message'].map(lambda x: re.sub(r"(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)","",str(x)).split())
 #Following removes any traces of emojis
 def deEmojify(text):
     regrex_pattern = re.compile(pattern = "["
@@ -120,61 +119,81 @@ def deEmojify(text):
                            "]+", flags = re.UNICODE)
     return regrex_pattern.sub(r'',str(text))
 
-C1['full_text'] = C1['full_text'].map(deEmojify)
+Corpus['text'] = Corpus['text'].map(deEmojify)
 
-C1['full_text']=C1['full_text'].dropna()
-# Corpus['full_text'] = Corpus['full_text'].map(deEmojify)
+Corpus['text']=Corpus['text'].dropna()
+Corpus1['Message'] = Corpus1['Message'].map(deEmojify)
 
-# Corpus['Description']=Corpus['full_text'].dropna()
+Corpus1['Message']=Corpus1['Message'].dropna()
 
-C1['text_final'] = C1['full_text'].map(text_preprocessing)
-# Corpus['text_final'] = Corpus['Description'].map(text_preprocessing)
+Corpus['text_final'] = Corpus['text'].map(text_preprocessing)
+Corpus1['text_final'] = Corpus1['Message'].map(text_preprocessing)
+print(Corpus)
+print(Corpus1)
+input('h')
 #Add temp part here
-# temp=[]
-# temp1=[]
-# C1=C1.reset_index(drop=True)
+temp=[]
+temp1=[]
+# Corpus=Corpus.reset_index(drop=True)
 # print(C1)
-# # Test_X=Test_X.reset_index(drop=True)
-# # Corpus.reset_index()
-# for x in range(len(C1)):
-#     found = Corpus.loc[Corpus['text_final']==C1['text_final'][x]]
-#     print(found)
-#     temp.append(found.iloc[0]['Likes'])
+# Test_X=Test_X.reset_index(drop=True)
+# Corpus.reset_index()
+for x in range(len(Corpus)):
+    tmp=[]
+    found = Corpus1.loc[Corpus1['text_final']==Corpus['text_final'][x]]
+    print(found)
+    tmp.append(found.iloc[0]['Likes'])
+    tmp.append(found.iloc[0]['Comments'])
+    tmp.append(found.iloc[0]['Shares'])
+    temp.append(tmp)
+    #If using twitter dataset comment out lines 143 to 148 and uncomment the following lines
+    # found = Corpus1.loc[Corpus1['Tweet-Id']==Corpus['Tweet-Id'][x]]
+    # # print(found)
+    # tmp.append(found.iloc[0]['Tweets'])
+    # tmp.append(found.iloc[0]['Followers'])
+    # tmp.append(found.iloc[0]['Verified'])
+    # tmp.append(found.iloc[0]['Listed'])
+    # tmp.append(found.iloc[0]['Description'])
+    # tmp.append(found.iloc[0]['Age'])
+    # tmp.append(found.iloc[0]['Image'])
+    # tmp.append(found.iloc[0]['HasURL-TW'])
+    # tmp.append(found.iloc[0]['HasMedia-Tw'])
+    # temp.append(tmp)
 
 
-sample_text_processed_vectorized = Tfidf_vect.transform(C1['text_final'])
+sample_text_processed_vectorized = Tfidf_vect.transform(Corpus['text_final'])
 
 
-# temp = np.array(temp)
+temp = np.array(temp)
 
-# temp = np.reshape(temp, (len(temp), 1))
-# # temp1 = np.reshape(temp1, (len(temp1), 1))
+temp = np.reshape(temp, (len(temp), temp.shape[1]))
+# temp1 = np.reshape(temp1, (len(temp1), 1))
 
-# print(sample_text_processed_vectorized.shape)
-# print(temp.shape)
-# # print(Test_X_Tfidf.shape)
-# # print(temp1.shape)
+print(sample_text_processed_vectorized.shape)
+print(temp.shape)
+# print(Test_X_Tfidf.shape)
+# print(temp1.shape)
 
-# X_train=sample_text_processed_vectorized.toarray()
-# # X_test=Test_X_Tfidf.toarray()
-# # print(X_train)
-# # print(temp)
-# # input('enter enter when ready')
-# X_train=np.append(X_train,temp,axis=1)
-# # X_test=np.append(X_test,temp1,axis=1)
+X_train=sample_text_processed_vectorized.toarray()
+# X_test=Test_X_Tfidf.toarray()
+# print(X_train)
+# print(temp)
+# input('enter enter when ready')
+X_train=np.append(X_train,temp,axis=1)
+# X_test=np.append(X_test,temp1,axis=1)
 
-# print(X_train.shape)
-# # print(X_test.shape)
-# # input('tt')
+print(X_train.shape)
+# print(X_test.shape)
+# input('tt')
 
-# x_train = pd.DataFrame(X_train)
+x_train = pd.DataFrame(X_train)
 
 
 
 # prediction_SVM = SVM.predict(sample_text_processed_vectorized)
 # prediction_Naive = Naive.predict(sample_text_processed_vectorized)
-prediction_forrest= Forrest.predict(sample_text_processed_vectorized)
-np.savetxt("labels-tw-class1.csv",prediction_forrest,delimiter=",")
+prediction_forrest= Forrest.predict(x_train)
+np.savetxt("labels-fb-classifier2-new.csv",prediction_forrest,delimiter=",")
 # prediction_Knear=KN.predict(sample_text_processed_vectorized)
 # prediction_nn=NN.predict(sample_text_processed_vectorized)
 # print("Prediction from SVM Model:", labelencode.inverse_transform(prediction_SVM)[0])
